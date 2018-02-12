@@ -1,0 +1,46 @@
+<!DOCTYPE>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<html>
+
+<body>
+    <form class="form" method="post">
+        <!-- all the inputs... -->
+        <div class="input-group">
+            <span class="input-group-addon">Customer Name:</span>
+            <input type="text" id="name" class="form-control">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Customer Email:</span>
+            <input type="text" id="email" class="form-control">
+        </div>
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon">Customer message:</span>
+            <input type="textarea" id="message" class="form-control">
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- captcha -->
+        <div class="input-group">
+            <div class="g-recaptcha" data-sitekey="6LcOQjoUAAAAADHrKHZWKkrmmi5nDVX-JQFOmQkH"></div>
+        </div>
+        <br>
+        <div class="errors" id="errors" style="display: none"></div>
+        <div id="message"></div>
+        <br>
+        <div class="input-group">
+            <input type="button" value="Send" class="btn-default right" id="btnSub">
+            <div class="clear"></div>
+        </div>
+    </form>
+
+    <script src="contact.js"></script>
+</body>
+
+</html>

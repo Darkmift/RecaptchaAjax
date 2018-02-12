@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>NewForm</title>
+    <!-- Accomodation for minimal responsive support -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- link for tab icon(PUT YOURS HERE OR REMOVE) -->
+    <link rel="shortcut icon" type="image/png" href="http://dev5.granot.com/aviproject/main/CCForm10/Glogo.ico" />
+    <!-- ///// -->
+    <!-- optional addons -->
+    <!-- Latest bootstrap compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <!-- Optional bootstrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous">
+    <!-- link for personal css -->
+    <link href="css.css" type="text/css" rel="stylesheet" />
+    <!--Jquery(Bootstrap dependency)-->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- //// -->
+    <!-- js.js and formcheck governs validations AND MUST BE ADDED! -->
+    <script src="js1.js"></script>
+    <script language="JavaScript" src="http://ant.hellomoving.com/STATERELOC/formcheck.js"></script>
+</head>
+
+<body>
+    <div class="main">
+        <div class="main-div">
+            <form name="theForm" method="post">
+                <input type="HIDDEN" name="MODULE" value="EST">
+                <input type="HIDDEN" name="REF" value="Web-site">
+                <div class="input-group">
+                    <span class="input-group-addon">Customer Name:</span>
+                    <input type="text" name="SNAME" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Customer Email:</span>
+                    <input type="text" name="EMAIL" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Contact Phone:</span>
+                    <input type="text" name="STELH" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">Cell Phone (Optional):</span>
+                    <input type="text" name="STELO" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"> Moving Date:</span>
+                    <input type="text" name="MOVEDATE" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"> Moving from Zip Code:</span>
+                    <input type="text" name="SZIP" class="form-control">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"> Moving to Zip Code:</span>
+                    <input type="text" name="RZIP" class="form-control">
+                </div>
+                <br>
+                <div style="background-color:white;border-radius:5px;">
+                    <b>Not sure about your Zip code?&nbsp;<a href="javascript:locatezip()">Find Zip Code</a>&nbsp;Here</b>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon" for="select_label_1">Move Size:</span>
+                    <select class="form-control" name="ROOMS" style="display:inline-block">
+                        <option selected> Select Bedroom </option>
+                        <option value="STU">Studio</option>
+                        <option value="ONE">One bedroom</option>
+                        <option value="TWO">Two bedrooms</option>
+                        <option value="THR">Three bedrooms</option>
+                        <option value="FOU">Four bedrooms</option>
+                        <option value="FIV">Five bedrooms</option>
+                        <option value="SIX">Six bedrooms and more</option>
+                        <option value="OFF">Office</option>
+                        <option value="PAR">Warehouse</option>
+                    </select>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon"> What is 5+9?</span>
+                    <input type="number" name="captcha" class="form-control">
+                </div>
+                <br>
+                <div>
+                    <input type="button" name="btnSubmit" onclick="SubmitEntry()" value="Continue to Inventory" class="btn btn-success btn-block">
+                </div>
+            </form>
+            <!--End copy Form-->
+        </div>
+    </div>
+
+
+    <!--END OF HTML HERE-->
+    <!--Bootstrap Plugins-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

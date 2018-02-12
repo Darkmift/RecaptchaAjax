@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Form7</title>
+    <!-- Accomodation for minimal responsive support -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- link for tab icon(PUT YOURS HERE OR REMOVE) -->
+    <link rel="shortcut icon" type="image/png" href="http://dev5.granot.com/aviproject/main/CCForm10/Glogo.ico" />
+
+    <!--Jquery(for AJAX syntax,nott needed if captcha disabled.)-->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- js.js and formcheck governs validations AND MUST BE ADDED! -->
+    <script>
+        ////This is the validation script.modifications will result in errors.TEST AND MAKE A BACKUP BEFORE editing!!!!.
+        //your account name--MANDATORY!
+        var ACCOUNT_NAME = "DEMOSUP";
+        //your account's department--optional
+        var ACCOUNT_DEPARTMENT = "~A";
+        //your account's server prefix--MANDATORY!
+        var SERVER_NAME = "bear";
+        //have the client skip the inventory screen.--optional
+        var SKIPINV = "~SKIPINV";
+
+        function checkData() {
+            frm = document.theForm;
+            return lengthValid(frm.SNAME, 4, "full name") &&
+                emailValid(frm.EMAIL, 4, "Email") &&
+                lengthValid(frm.STELH, 10, "ten digits phone number") &&
+                zipValid(frm.SZIP, 5, "five digits origin zip code -US only") &&
+                zipValid(frm.RZIP, 5, "five digits destination zip code - US only") && selectValid(frm.ROOMS, "Move size")
+                /***remove line below to disable captcha */
+                &&
+                runAJAX()
+        }
+
+        function SubmitEntry() {
+            if (checkData()) {
+                document.theForm.action = `http://${SERVER_NAME}.hellomoving.com/wc.dll?mpdir~moduleret~${ACCOUNT_NAME}${ACCOUNT_DEPARTMENT}${SKIPINV}`;
+                document.theForm.submit();
+            }
+        }
+
+        function locatezip() {
+            window.open(`http://${SERVER_NAME}.hellomoving.com/wc.dll?mputil~zipwc~NEW`,
+                'EANITHING',
+                'toolbar=no,location=no,directories=no,status=no,menubar=no,resizable=no,copyhistory=no,scrollbars=yes,width=550,height=500');
+            self.name = "main";
+        }
+
+        //runs the cpatcha validation--returns result
+        function runAJAX() {
+            //Our AJAX POST
+            $.ajax({
+                type: "POST",
+                url: "mail.php",
+                data: {
+                    //THIS WILL TELL THE FORM IF THE USER IS CAPTCHA VERIFIED.
+                    captcha: grecaptcha.getResponse()
+                },
+                async: false,
+                success: function(data) {
+                    console.log(data);
+                    if (data === 'FAILURE') {
+                        alert('Captcha validation failed');
+                        response = false;
+                    }
+                    if (data === 'SUCCESS') {
+                        console.log('yay');
+                        response = true;
+                        ///DO STUFF
+                    }
+                },
+                error: function() {
+                    console.log('Error occured connecting to mail.php');
+                }
+            })
+            return response;
+        }
+    </script>
+    <script language="JavaScript" src="http://ant.hellomoving.com/STATERELOC/formcheck.js"></script>
+    <!-- //recpatcha -->
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
+<body>
+    <!--start copy Form-->
+    <form name="theForm" method="post">
+        <input type="HIDDEN" name="MODULE" value="EST">
+        <input type="HIDDEN" name="REF" value="Web-site">
+        <br> Customer Name:
+        <input type="text" name="SNAME" class="form-control">
+        <br> Customer Email:
+        <input type="text" name="EMAIL" class="form-control">
+        <br> Contact Phone:
+        <input type="text" name="STELH" class="form-control">
+        <br> Cell Phone (Optional):
+        <input type="text" name="STELO" class="form-control">
+        <br> Moving Date:
+        <input type="text" name="MOVEDATE" class="form-control">
+        <br> Moving from Zip Code:
+        <input type="text" name="SZIP" class="form-control">
+        <br> Moving to Zip Code:
+        <input type="text" name="RZIP" class="form-control">
+        <br>
+        <br>
+        <div style="background-color:white;border-radius:5px;">
+            <b>Not sure about your Zip code?&nbsp;<a href="javascript:locatezip()">Find Zip Code</a>&nbsp;Here</b>
+        </div>
+        <br> Move Size:
+        <select class="form-control" name="ROOMS" style="display:inline-block">
+                        <option selected> Select Bedroom </option>
+                        <option value="STU">Studio</option>
+                        <option value="ONE">One bedroom</option>
+                        <option value="TWO">Two bedrooms</option>
+                        <option value="THR">Three bedrooms</option>
+                        <option value="FOU">Four bedrooms</option>
+                        <option value="FIV">Five bedrooms</option>
+                        <option value="SIX">Six bedrooms and more</option>
+                        <option value="OFF">Office</option>
+                        <option value="PAR">Warehouse</option>
+                    </select>
+        <br>
+        <br>
+        <!-- remove this div to disable caaptcha--remove in JS aswell as instructed within -->
+        <div class="g-recaptcha" data-sitekey="6LcOQjoUAAAAADHrKHZWKkrmmi5nDVX-JQFOmQkH"></div>
+        <br>
+        <div>
+            <input type="button" onclick="SubmitEntry()" name="btnSubmit" value="Continue to Inventory">
+        </div>
+    </form>
+    <!--End copy Form-->
+    <!--END OF HTML HERE-->
+
+</body>
+
+</html>
