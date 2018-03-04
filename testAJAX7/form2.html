@@ -2,179 +2,179 @@
 
 <html>
 
-<head>
-    <title>Form7</title>
-    <!-- Accomodation for minimal responsive support -->
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!-- link for tab icon(PUT YOURS HERE OR REMOVE) -->
-    <link rel="shortcut icon" type="image/png" href="http://dev5.granot.com/aviproject/main/CCForm10/Glogo.ico" />
+    <head>
+        <title>Form7</title>
+        <!-- Accomodation for minimal responsive support -->
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <!-- link for tab icon(PUT YOURS HERE OR REMOVE) -->
+        <link rel="shortcut icon" type="image/png" href="http://dev5.granot.com/aviproject/main/CCForm10/Glogo.ico" />
 
-    <!--Jquery(for AJAX syntax,nott needed if captcha disabled.)-->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- js.js and formcheck governs validations AND MUST BE ADDED! -->
-    <script>
-        ////This is the validation script.modifications will result in errors.TEST AND MAKE A BACKUP BEFORE editing!!!!.
-        //your account name--MANDATORY!
-        var ACCOUNT_NAME = "DEMOSUP";
-        //your account's department--optional
-        var ACCOUNT_DEPARTMENT = "~A";
-        //your account's server prefix--MANDATORY!
-        var SERVER_NAME = "bear";
-        //have the client skip the inventory screen.--optional
-        var SKIPINV = "~SKIPINV";
+        <!--Jquery(for AJAX syntax,nott needed if captcha disabled.)-->
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <!-- js.js and formcheck governs validations AND MUST BE ADDED! -->
+        <script>
+            ////This is the validation script.modifications will result in errors.TEST AND MAKE A BACKUP BEFORE editing!!!!.
+            //your account name--MANDATORY!
+            var ACCOUNT_NAME = "DEMOSUP";
+            //your account's department--optional
+            var ACCOUNT_DEPARTMENT = "~A";
+            //your account's server prefix--MANDATORY!
+            var SERVER_NAME = "bear";
+            //have the client skip the inventory screen.--optional
+            var SKIPINV = "~SKIPINV";
 
-        function checkData() {
-            frm = document.theForm;
-            return lengthValid(frm.SNAME, 4, "full name") &&
-                emailValid(frm.EMAIL, 4, "Email") &&
-                lengthValid(frm.STELH, 10, "ten digits phone number") &&
-                zipValid(frm.SZIP, 5, "five digits origin zip code -US only") &&
-                zipValid(frm.RZIP, 5, "five digits destination zip code - US only") && selectValid(frm.ROOMS, "Move size")
-                /***remove line below to disable captcha */
-                &&
-                runAJAX()
-        }
-
-        function SubmitEntry() {
-            if (checkData()) {
-                document.theForm.action = `http://${SERVER_NAME}.hellomoving.com/wc.dll?mpdir~moduleret~${ACCOUNT_NAME}${ACCOUNT_DEPARTMENT}${SKIPINV}`;
-                document.theForm.submit();
+            function checkData() {
+                frm = document.theForm;
+                return lengthValid(frm.SNAME, 4, "full name") &&
+                        emailValid(frm.EMAIL, 4, "Email") &&
+                        lengthValid(frm.STELH, 10, "ten digits phone number") &&
+                        zipValid(frm.SZIP, 5, "five digits origin zip code -US only") &&
+                        zipValid(frm.RZIP, 5, "five digits destination zip code - US only") && selectValid(frm.ROOMS, "Move size")
+                        /***remove line below to disable captcha */
+                        &&
+                        runAJAX()
             }
-        }
 
-        function locatezip() {
-            window.open(`http://${SERVER_NAME}.hellomoving.com/wc.dll?mputil~zipwc~NEW`,
-                'EANITHING',
-                'toolbar=no,location=no,directories=no,status=no,menubar=no,resizable=no,copyhistory=no,scrollbars=yes,width=550,height=500');
-            self.name = "main";
-        }
-
-        //runs the cpatcha validation--returns result
-        function runAJAX() {
-            //Our AJAX POST
-            $.ajax({
-                type: "POST",
-                url: "mail.php",
-                data: {
-                    //THIS WILL TELL THE FORM IF THE USER IS CAPTCHA VERIFIED.
-                    captcha: grecaptcha.getResponse()
-                },
-                async: false,
-                success: function(data) {
-                    console.log(data);
-                    if (data === 'FAILURE') {
-                        alert('Captcha validation failed');
-                        response = false;
-                    }
-                    if (data === 'SUCCESS') {
-                        console.log('yay');
-                        response = true;
-                        ///DO STUFF
-                    }
-                },
-                error: function() {
-                    console.log('Error occured connecting to mail.php');
+            function SubmitEntry() {
+                if (checkData()) {
+                    document.theForm.action = `http://${SERVER_NAME}.hellomoving.com/wc.dll?mpdir~moduleret~${ACCOUNT_NAME}${ACCOUNT_DEPARTMENT}${SKIPINV}`;
+                    document.theForm.submit();
                 }
-            })
-            return response;
-        }
-    </script>
-    <script language="JavaScript" src="http://ant.hellomoving.com/STATERELOC/formcheck.js"></script>
-    <!-- //recpatcha -->
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-</head>
+            }
 
-<body>
-    <form name="theForm" method="post">
-        <input type="HIDDEN" name="MODULE" value="EST">
-        <input type="HIDDEN" name="REF" value="Web-site">
-        <div align="center">
-            <center>
-                <table width="500" border="0" cellspacing="1" cellpadding="2" bordercolor="#03346C" style="border-collapse: collapse">
-                    <tr>
-                        <td height="9" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Customer Name:</font>
-                        </td>
-                        <td height="9" width="334"><input type="text" name="SNAME" size="20" style="border: 1px solid #000000; " tabindex="1"></td>
-                    </tr>
-                    <tr>
-                        <td height="10" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Customer Email:</font>
-                        </td>
-                        <td height="10" width="334"><input type="text" name="EMAIL" size="20" style="border: 1px solid #000000; " tabindex="2"></td>
-                    </tr>
-                    <tr>
-                        <td height="12" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Contact Phone:</font>
-                        </td>
-                        <td height="12" width="334"><input type="text" name="STELH" size="20" style="border: 1px solid #000000; " tabindex="3"></td>
-                    </tr>
-                    <tr>
-                        <td height="12" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Cell Phone:</font>
-                        </td>
-                        <td height="12" width="334">
-                            <input type="text" name="STELO" size="20" style="border: 1px solid #000000; " tabindex="4"></td>
-                    </tr>
-                    <tr>
-                        <td height="15" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000; ">Moving Date:</font>
-                        </td>
-                        <td height="15" width="334">
-                            <input type="text" name="MOVEDATE" size="10" style="border: 1px solid #000000; " tabindex="5"></td>
-                    </tr>
-                    <tr>
-                        <td height="15" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Moving from Zip Code:</font>
-                        </td>
-                        <td height="15" width="334">
-                            <input type="text" name="SZIP" size="7" style="border: 1px solid #000000;" tabindex="10"></td>
-                    </tr>
-                    <tr>
-                        <td height="17" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000;">Moving to Zip Code:</font>
-                        </td>
-                        <td height="17" width="334">
-                            <input type="text" name="RZIP" size="7" style="border: 1px solid #000000;" tabindex="11">
-                            <b><font face="Verdana" size="1"><a href="javascript:locatezip()">Find Zip Code</a></font></b></td>
-                    </tr>
-                    <tr>
-                        <td height="19" width="146">
-                            <font style="font-size:9pt;font-family:Arial;color:#000000; ">Move Size:</font>
-                        </td>
-                        <td height="19" width="334">
-                            <select name="ROOMS" class="textFeilds3" tabindex="12" style="border: 2px solid; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1; ">
-                                             <option selected>< Select Bedroom ></option>
-                                            <option value="STU">Studio</option>
-                                            <option value="ONE">One bedroom</option>
-                                            <option value="TWO">Two bedrooms</option>
-                                            <option value="THR">Three bedrooms</option>
-                                            <option value="FOU">Four bedrooms</option>
-                                            <option value="FIV">Five bedrooms</option>
-                                            <option value="SIX">Six bedrooms and more</option>
-                                            <option value="OFF">Office</option>
-                                            <option value="PAR">Warehouse</option>
-                                      </select></td>
-                    </tr>
-                    <!-- remove this tr to disable caaptcha--remove in JS aswell as instructed within -->
-                    <tr>
-                        <td height="19" width="334">
-                            <br>
-                            <div class="g-recaptcha" data-sitekey="6LcOQjoUAAAAADHrKHZWKkrmmi5nDVX-JQFOmQkH" style="margin-left:25%"></div>
-                        </td>
-                    </tr>
-                </table>
-                <br>
-                <table width="400" border="0" cellspacing="1" cellpadding="2" bordercolor="#03346C" style="border-collapse: collapse">
-                    <tr>
-                        <td align="center"><input type="button" name="btnSubmit" onclick="SubmitEntry()" style="background-color:#CCCCCC; width:150; height:25; font-family:Arial; font-size:10pt;CURSOR:pointer;" value="Continue to Inventory" tabindex="10"></td>
-                    </tr>
-                </table>
-            </center>
-        </div>
-    </form>
-    <!--END OF HTML HERE-->
+            function locatezip() {
+                window.open(`http://${SERVER_NAME}.hellomoving.com/wc.dll?mputil~zipwc~NEW`,
+                        'EANITHING',
+                        'toolbar=no,location=no,directories=no,status=no,menubar=no,resizable=no,copyhistory=no,scrollbars=yes,width=550,height=500');
+                self.name = "main";
+            }
 
-</body>
+            //runs the cpatcha validation--returns result
+            function runAJAX() {
+                //Our AJAX POST
+                $.ajax({
+                    type: "POST",
+                    url: "mail.php",
+                    data: {
+                        //THIS WILL TELL THE FORM IF THE USER IS CAPTCHA VERIFIED.
+                        captcha: grecaptcha.getResponse()
+                    },
+                    async: false,
+                    success: function (data) {
+                        console.log(data);
+                        if (data === 'FAILURE') {
+                            alert('Captcha validation failed');
+                            response = false;
+                        }
+                        if (data === 'SUCCESS') {
+                            console.log('yay');
+                            response = true;
+                            ///DO STUFF
+                        }
+                    },
+                    error: function () {
+                        console.log('Error occured connecting to mail.php');
+                    }
+                })
+                return response;
+            }
+        </script>
+        <script language="JavaScript" src="http://ant.hellomoving.com/STATERELOC/formcheck.js"></script>
+        <!-- //recpatcha -->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+    </head>
+
+    <body>
+        <form name="theForm" method="post">
+            <input type="HIDDEN" name="MODULE" value="EST">
+            <input type="HIDDEN" name="REF" value="Web-site">
+            <div align="center">
+                <center>
+                    <table width="500" border="0" cellspacing="1" cellpadding="2" bordercolor="#03346C" style="border-collapse: collapse">
+                        <tr>
+                            <td height="9" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Customer Name:</font>
+                            </td>
+                            <td height="9" width="334"><input type="text" name="SNAME" size="20" style="border: 1px solid #000000; " tabindex="1"></td>
+                        </tr>
+                        <tr>
+                            <td height="10" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Customer Email:</font>
+                            </td>
+                            <td height="10" width="334"><input type="text" name="EMAIL" size="20" style="border: 1px solid #000000; " tabindex="2"></td>
+                        </tr>
+                        <tr>
+                            <td height="12" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Contact Phone:</font>
+                            </td>
+                            <td height="12" width="334"><input type="text" name="STELH" size="20" style="border: 1px solid #000000; " tabindex="3"></td>
+                        </tr>
+                        <tr>
+                            <td height="12" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Cell Phone:</font>
+                            </td>
+                            <td height="12" width="334">
+                                <input type="text" name="STELO" size="20" style="border: 1px solid #000000; " tabindex="4"></td>
+                        </tr>
+                        <tr>
+                            <td height="15" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000; ">Moving Date:</font>
+                            </td>
+                            <td height="15" width="334">
+                                <input type="text" name="MOVEDATE" size="10" style="border: 1px solid #000000; " tabindex="5"></td>
+                        </tr>
+                        <tr>
+                            <td height="15" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Moving from Zip Code:</font>
+                            </td>
+                            <td height="15" width="334">
+                                <input type="text" name="SZIP" size="7" style="border: 1px solid #000000;" tabindex="10"></td>
+                        </tr>
+                        <tr>
+                            <td height="17" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000;">Moving to Zip Code:</font>
+                            </td>
+                            <td height="17" width="334">
+                                <input type="text" name="RZIP" size="7" style="border: 1px solid #000000;" tabindex="11">
+                                <b><font face="Verdana" size="1"><a href="javascript:locatezip()">Find Zip Code</a></font></b></td>
+                        </tr>
+                        <tr>
+                            <td height="19" width="146">
+                                <font style="font-size:9pt;font-family:Arial;color:#000000; ">Move Size:</font>
+                            </td>
+                            <td height="19" width="334">
+                                <select name="ROOMS" class="textFeilds3" tabindex="12" style="border: 2px solid; padding-left: 4; padding-right: 4; padding-top: 1; padding-bottom: 1; ">
+                                    <option selected>< Select Bedroom ></option>
+                                    <option value="STU">Studio</option>
+                                    <option value="ONE">One bedroom</option>
+                                    <option value="TWO">Two bedrooms</option>
+                                    <option value="THR">Three bedrooms</option>
+                                    <option value="FOU">Four bedrooms</option>
+                                    <option value="FIV">Five bedrooms</option>
+                                    <option value="SIX">Six bedrooms and more</option>
+                                    <option value="OFF">Office</option>
+                                    <option value="PAR">Warehouse</option>
+                                </select></td>
+                        </tr>
+                        <!-- remove this tr to disable caaptcha--remove in JS aswell as instructed within -->
+                        <tr>
+                            <td height="19" width="334">
+                                <br>
+                                <div class="g-recaptcha" data-sitekey="6LeWeUgUAAAAADY8UlDRM8B4GdqrpTSSJ-JenbSe" style="margin-left:25%"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                    <table width="400" border="0" cellspacing="1" cellpadding="2" bordercolor="#03346C" style="border-collapse: collapse">
+                        <tr>
+                            <td align="center"><input type="button" name="btnSubmit" onclick="SubmitEntry()" style="background-color:#CCCCCC; width:150; height:25; font-family:Arial; font-size:10pt;CURSOR:pointer;" value="Continue to Inventory" tabindex="10"></td>
+                        </tr>
+                    </table>
+                </center>
+            </div>
+        </form>
+        <!--END OF HTML HERE-->
+
+    </body>
 
 </html>
